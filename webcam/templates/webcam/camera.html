@@ -1,0 +1,73 @@
+{% load static %}{% load url from future %}
+<div id="camera" class="camera"></div>
+<div id="camera-commands" class="camera">
+    <a id="camera-snap" href="#" rel="nofollow">snap</a>
+</div>
+<div id='picture-options'>
+    <a href="#" id="take-picure">take a picture</a>&nbsp;|&nbsp;<a id="camera-delete" href="#" rel="nofollow">remove</a>&nbsp;|&nbsp;<a id="camera-upload" href="#" rel="nofollow">upload</a>
+</div>
+<script type="text/javascript">
+    var CANVAS_WIDTH = 320;
+    var CANVAS_HEIGHT = 240;
+
+    var pos = 0, ctx = null, saveCB, image = [];
+
+    var canvas = document.createElement("canvas");
+    canvas.setAttribute('width', CANVAS_WIDTH);
+    canvas.setAttribute('height', CANVAS_HEIGHT);
+
+    if (canvas.toDataURL) {
+        ctx = canvas.getContext("2d");
+        image = ctx.getImageData(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        saveCB = function (data) {
+            var col = data.split(";");
+            var img = image;
+            for (var i = 0; i < CANVAS_WIDTH; i++) {
+                var tmp = parseInt(col[i]);
+                img.data[pos + 0] = (tmp >> 16) & 0xff;
+                img.data[pos + 1] = (tmp >> 8) & 0xff;
+                img.data[pos + 2] = tmp & 0xff;
+                img.data[pos + 3] = 0xff;
+                pos += 4;
+            }
+            if (pos >= 4 * CANVAS_WIDTH * CANVAS_HEIGHT) {
+                ctx.putImageData(img, 0, 0);
+{#                $.post("{% url "picture-save" %}", {type:"data", image:canvas.toDataURL("image/png")}, _post_snap);#}
+                pos = 0;
+            }
+        };
+    } else {
+        saveCB = function (data) {
+            image.push(data);
+            pos += 4 * CANVAS_WIDTH;
+            if (pos >= 4 * CANVAS_WIDTH * CANVAS_HEIGHT) {
+{#                $.post("{% url "picture-save" %}", {type:"pixel", image:image.join('|')}, _post_snap);#}
+                pos = 0;
+            }
+        };
+    }
+    _post_snap = function () {
+//        $('#picture img, #picture p').show();
+//        $('#picture img').attr('src', "");
+//        $('#picture-options').show();
+//        $('.camera').hide();
+    };
+    $("#camera").webcam({
+        width:CANVAS_WIDTH,
+        height:CANVAS_HEIGHT,
+        mode:"callback",
+        swffile:"{% static "core/js/jscam.swf" %}",
+        onSave:function (data) { saveCB(data);},
+        onCapture:function () { webcam.save();},
+        onLoad:function () { var cams = webcam.getCameraList();}
+    });
+    $("#camera-snap").click(function () {webcam.capture()});
+    $("#camera-upload").click(function () {});
+{#    $("#camera-delete").click(function () { $.post( "{% url "picture-delete" %}") });#}
+
+    $("#take-picure").click(function () {
+//        $('#picture img, #picture p, #picture-options').hide();
+        $('.camera').show();
+
+    });
+</script>
