@@ -3,7 +3,6 @@ include AUTHORS
 include LICENSE
 include MANIFEST.in
 include setup.py
-include requirements.txt
 recursive-include webcam *.py
 recursive-include webcam/static *.*
 recursive-include webcam/templates *.*
