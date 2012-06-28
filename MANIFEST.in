@@ -6,4 +6,3 @@ include setup.py
 recursive-include webcam *.py
 recursive-include webcam/static *.*
 recursive-include webcam/templates *.*
-prune iadmin/tests

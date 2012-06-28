@@ -1,11 +1,31 @@
 {% load static %}{% load url from future %}
-<div id="camera" class="camera"></div>
+<script src="{% static 'webcam/camera.js' %}"></script>
+<script src="{% static 'webcam/jquery.webcam.js' %}"></script>
+<style>
+    #camera-frame{
+        /*position: absolute;*/
+        border:1px solid black;
+        width: 320px;
+        height: 240px;
+    }
+    #camera-monitor {
+        /*position: relative;*/
+        width: 320px;
+        height: 240px;
+
+    }
+</style>
+<div id="camera-frame" class="camera">
+    <img id="camera-monitor" width="320" height="240" src="{% url 'camera' initial %}"/>
+    <div id="camera-flv" class="camera"></div>
+</div>
 <div id="camera-commands" class="camera">
-    <a id="camera-snap" href="#" rel="nofollow">snap</a>
+    <a id="camera-on" class="btn" href="#" rel="nofollow">Camera On</a>
+    <a id="camera-snap" class="btn" href="#" rel="nofollow" style="display:none;">snap</a>
+    <a id="camera-delete" class="btn" href="#" rel="nofollow">clear</a>
+{#    <a id="camera-show" class="btn" href="#" rel="nofollow">show</a>#}
 </div>
-<div id='picture-options'>
-    <a href="#" id="take-picure">take a picture</a>&nbsp;|&nbsp;<a id="camera-delete" href="#" rel="nofollow">remove</a>&nbsp;|&nbsp;<a id="camera-upload" href="#" rel="nofollow">upload</a>
-</div>
+
 <script type="text/javascript">
     var CANVAS_WIDTH = 320;
     var CANVAS_HEIGHT = 240;
@@ -32,7 +52,7 @@
             }
             if (pos >= 4 * CANVAS_WIDTH * CANVAS_HEIGHT) {
                 ctx.putImageData(img, 0, 0);
-{#                $.post("{% url "picture-save" %}", {type:"data", image:canvas.toDataURL("image/png")}, _post_snap);#}
+                $.post("{{ url }}", {op:"save", type:"data", image:canvas.toDataURL("image/png")}, {{ callback }}, 'json');
                 pos = 0;
             }
         };
@@ -41,33 +61,56 @@
             image.push(data);
             pos += 4 * CANVAS_WIDTH;
             if (pos >= 4 * CANVAS_WIDTH * CANVAS_HEIGHT) {
-{#                $.post("{% url "picture-save" %}", {type:"pixel", image:image.join('|')}, _post_snap);#}
+                $.post("{{ url }}", {op:"save", type:"pixel", image:image.join('|')}, {{callback}}, 'json');
                 pos = 0;
             }
         };
     }
-    _post_snap = function () {
-//        $('#picture img, #picture p').show();
-//        $('#picture img').attr('src', "");
-//        $('#picture-options').show();
-//        $('.camera').hide();
+    _callback = function(data, textStatus, jqXHR){
+        $('#camera-monitor').attr("src", "http://10.11.69.142:8000/static/core/css/images/wait.gif");
+        $('#camera-monitor').attr("src", data.refresh);
+
+        $("#camera-on").click();
     };
-    $("#camera").webcam({
+    $("#camera-flv").webcam({
         width:CANVAS_WIDTH,
         height:CANVAS_HEIGHT,
         mode:"callback",
-        swffile:"{% static "core/js/jscam.swf" %}",
-        onSave:function (data) { saveCB(data);},
-        onCapture:function () { webcam.save();},
-        onLoad:function () { var cams = webcam.getCameraList();}
+        swffile:"{% static "webcam/jscam.swf" %}",
+        onSave:function (data) {
+            saveCB(data);
+        },
+        onCapture:function () {
+            webcam.save();
+        },
+        onLoad:function () {
+            $("#camera-commands").show();
+        }
     });
-    $("#camera-snap").click(function () {webcam.capture()});
-    $("#camera-upload").click(function () {});
-{#    $("#camera-delete").click(function () { $.post( "{% url "picture-delete" %}") });#}
-
-    $("#take-picure").click(function () {
-//        $('#picture img, #picture p, #picture-options').hide();
-        $('.camera').show();
-
+    $("#camera-snap").click(function (event) {
+        event.preventDefault();
+        webcam.capture()
     });
+    $("#camera-delete").click(function (event) {
+        $.post("{{ url }}", {op:"rem"}, {{callback}})
+    });
+    $("#camera-on").click(function (event) {
+        if ($('#camera-monitor').is(":visible")){
+            $('#camera-monitor').hide();
+            $("#camera-flv object").show();
+            $("#camera-snap").show();
+            $("#camera-on").text('Off Camera')
+        }else{
+            $('#camera-monitor').show();
+            $("#camera-flv object").hide();
+            $("#camera-snap").hide();
+            $("#camera-on").text('On Camera')
+        }
+    });
+    $('#camera-monitor').show();
+    $("#camera-flv object").hide();
+    $("#camera-snap").hide();
+    $("#camera-on").text('On Camera')
+
 </script>
+
