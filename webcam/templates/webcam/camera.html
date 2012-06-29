@@ -16,7 +16,7 @@
     }
 </style>
 <div id="camera-frame" class="camera">
-    <img id="camera-monitor" width="320" height="240" src="{% url 'camera' initial %}"/>
+    <img id="camera-monitor" width="320" height="240" src="{{ initial }}"/>
     <div id="camera-flv" class="camera"></div>
 </div>
 <div id="camera-commands" class="camera">
@@ -94,23 +94,17 @@
     $("#camera-delete").click(function (event) {
         $.post("{{ url }}", {op:"rem"}, {{callback}})
     });
-    $("#camera-on").click(function (event) {
-        if ($('#camera-monitor').is(":visible")){
+    $("#camera-on").toggle(function (event) {
             $('#camera-monitor').hide();
             $("#camera-flv object").show();
             $("#camera-snap").show();
             $("#camera-on").text('Off Camera')
-        }else{
+        }, function(){
             $('#camera-monitor').show();
             $("#camera-flv object").hide();
             $("#camera-snap").hide();
             $("#camera-on").text('On Camera')
         }
-    });
-    $('#camera-monitor').show();
-    $("#camera-flv object").hide();
-    $("#camera-snap").hide();
-    $("#camera-on").text('On Camera')
-
+    );
 </script>
 
