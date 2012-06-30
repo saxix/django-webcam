@@ -10,3 +10,10 @@ class CameraField(ImageField):
         defaults = {'form_class': forms.CameraField}
         defaults.update(kwargs)
         return super(CameraField, self).formfield(**defaults)
+
+try:
+    import south
+    from south.modelsinspector import add_introspection_rules
+    add_introspection_rules([], ["^webcam\.models\.CameraField"])
+except ImportError:
+    pass
