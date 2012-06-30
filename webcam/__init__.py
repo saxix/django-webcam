@@ -1,5 +1,5 @@
 NAME = 'django-webcam'
-VERSION = __version__ = (0, 1, 4, 'beta', 2)
+VERSION = __version__ = (0, 1, 4, 'beta', 3)
 __author__ = 'sax'
 
 
