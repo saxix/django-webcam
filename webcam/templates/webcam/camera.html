@@ -17,7 +17,7 @@
 </style>
 <div id="camera-frame" class="camera">
     <img id="camera-monitor" width="320" height="240" src="{{ initial }}"/>
-    <div id="camera-flv" class="camera"></div>
+    <div id="camera-flv" class="camera" style="display: none"></div>
 </div>
 <div id="camera-commands" class="camera">
     <a id="camera-on" class="btn" href="#" rel="nofollow">Camera On</a>
@@ -96,12 +96,12 @@
     });
     $("#camera-on").toggle(function (event) {
             $('#camera-monitor').hide();
-            $("#camera-flv object").show();
+            $("#camera-flv").show();
             $("#camera-snap").show();
             $("#camera-on").text('Off Camera')
         }, function(){
             $('#camera-monitor').show();
-            $("#camera-flv object").hide();
+            $("#camera-flv").hide();
             $("#camera-snap").hide();
             $("#camera-on").text('On Camera')
         }
