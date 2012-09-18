@@ -4,29 +4,27 @@ import os
 
 
 NAME = 'django-webcam'
-VERSION = __version__ = (0, 2, 0, 'final', 0)
+VERSION = __version__ = (0, 2, 0, 'beta', 2)
 __author__ = 'sax'
 
 
-def get_version(version=None):
+def get_version():
     """Derives a PEP386-compliant version number from VERSION."""
-    if version is None:
-        version = VERSION
-    assert len(version) == 5
-    assert version[3] in ('alpha', 'beta', 'rc', 'final')
+    assert len(VERSION) == 5
+    assert VERSION[3] in ('alpha', 'beta', 'rc', 'final')
 
-    parts = 2 if version[2] == 0 else 3
-    main = '.'.join(str(x) for x in version[:parts])
+    parts = 2 if VERSION[2] == 0 else 3
+    main = '.'.join(str(x) for x in VERSION[:parts])
 
     sub = ''
-    if version[3] == 'alpha' and version[4] == 0:
+    if VERSION[3] == 'alpha' and VERSION[4] == 0:
         git_changeset = get_git_changeset()
         if git_changeset:
-            sub = '.a%s' % git_changeset
+            sub = '.dev%s' % git_changeset
 
-    elif version[3] != 'final':
+    elif VERSION[3] != 'final':
         mapping = {'alpha': 'a', 'beta': 'b', 'rc': 'c'}
-        sub = mapping[version[3]] + str(version[4])
+        sub = mapping[VERSION[3]] + str(VERSION[4])
 
     return main + sub
 

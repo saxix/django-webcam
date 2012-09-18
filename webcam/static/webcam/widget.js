@@ -1,5 +1,3 @@
-// <!-- requires <script type="text/javascript" src="{% url django.views.i18n.javascript_catalog %}"></script> -->
-
 function base64_encode(s) {
     var base64chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'.split("");
     var r = '';
@@ -85,14 +83,11 @@ function Webcam(options /* { parent, width, height, swffile, quality, mode } */)
 
 function CameraMonitor(options /* { width, height, swffile, quality, mode } */) {
     try {
-        // Singleton because there is only one per page
         if (typeof window.cameramonitor != "undefined") {
             return window.cameramonitor
         }
         else {
             window.cameramonitor = this;
-            var CANVAS_WIDTH = options.width;
-            var CANVAS_HEIGHT = options.height;
             var _ = gettext;
             $("body").append(
                 $(
@@ -122,8 +117,8 @@ function CameraMonitor(options /* { width, height, swffile, quality, mode } */) 
             });
             var webcam = new Webcam({
                 parent: $("#camera-flv"),
-                width: CANVAS_WIDTH,
-                height: CANVAS_HEIGHT,
+                width: options.width,
+                height: options.height,
                 mode: "callback",
                 swffile: options.swffile,
                 onLoad: function (camera) {
@@ -155,8 +150,9 @@ function CameraMonitor(options /* { width, height, swffile, quality, mode } */) 
                 webcam.capture()
             });
             var $webcam_monitor_layer = $("#webcam-monitor-layer");
-            this.show_monitor = function(id) {
-                var $widget_input = $("#"+id);
+            this.show_monitor = function(widget, monitor) {
+                var $widget_input = $("#"+widget);
+                var $widget_monitor = $("#"+monitor);
                 $widget_input.attr("value", "");
                 $webcam_monitor_layer.show();
                 $snap.unbind('click');
@@ -168,21 +164,14 @@ function CameraMonitor(options /* { width, height, swffile, quality, mode } */) 
                             * However, this doesn't work as the flash seems to need to be showing whilst capturing.
                             * */
                             function (jpeg_hex_string) {
-                                // convert the data
                                 var jpeg_bytes = new Array(jpeg_hex_string);
-                                for (var i = 0,
-                                         len = jpeg_hex_string.length;
-                                     i<len;
-                                     i+=2
-                                ) {
+                                for (var i = 0, len=jpeg_hex_string.length;i<len;i+=2) {
                                     jpeg_bytes[i/2] = String.fromCharCode(parseInt("0x"+jpeg_hex_string.substr(i,2)))
                                 }
                                 var base64_jpeg_data = base64_encode(jpeg_bytes.join(""));
                                 var base64_jpeg_data_uri = "data:image/jpeg;base64,"+base64_jpeg_data;
                                 $widget_input.attr('value', base64_jpeg_data_uri);
-                                // show captured data as image
-                                var $image =  $("#"+id+"-image");
-                                $image.attr('src', base64_jpeg_data_uri)
+                                $widget_monitor.attr('src', base64_jpeg_data_uri)
                             }
                         );
                         $webcam_monitor_layer.hide();

@@ -2,11 +2,18 @@
 from distutils.core import setup
 from distutils.command.install import INSTALL_SCHEMES
 import os
-import webcam
+import webcam as app
 
 
-NAME = webcam.NAME
-VERSION = RELEASE = webcam.get_version()
+NAME = app.NAME
+RELEASE = app.get_version()
+
+VERSIONMAP = {'final': (app.VERSION, 'Development Status :: 5 - Production/Stable'),
+              'rc': (app.VERSION, 'Development Status :: 4 - Beta'),
+              'beta': (app.VERSION, 'Development Status :: 4 - Beta'),
+              'alpha': ('master', 'Development Status :: 3 - Alpha'),
+              }
+download_tag, development_status = VERSIONMAP[app.VERSION[3]]
 
 for scheme in INSTALL_SCHEMES.values():
     scheme['data'] = scheme['purelib']
@@ -44,40 +51,31 @@ def scan_dir(target, packages=[], data_files=[]):
             data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames]])
     return packages, data_files
 
-packages, data_files = scan_dir('webcam')
-
-if VERSION[3] == 'final':
-    download_tag = RELEASE
-else:
-    download_tag = 'master'
+packages, data_files = scan_dir('adminactions')
 
 setup(
     name=NAME,
     version=RELEASE,
     url='https://github.com/saxix/django-webcam',
-    download_url='https://github.com/saxix/django-webcam/tarball/%s' % download_tag,
+    download_url='https://github.com/saxix/django-webcam/tarball/master',
     author='sax',
     author_email='sax@os4d.org',
+    description="django fields easy store webcam snaphot",
     license='BSD',
     packages=packages,
     data_files=data_files,
-    include_package_data=True,
     platforms=['any'],
+    command_options={
+        'build_sphinx': {
+            'version': ('setup.py', app.VERSION),
+            'release': ('setup.py', app.VERSION)}
+    },
     classifiers=[
-        #                 'Development Status :: 5 - Production/Stable',
+        development_status,
         'Environment :: Web Environment',
         'Framework :: Django',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.5',
-        'Programming Language :: Python :: 2.6',
-        'Programming Language :: Python :: 2.7',
-        'Topic :: Internet :: WWW/HTTP',
-        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
-        'Topic :: Internet :: WWW/HTTP :: WSGI',
-        'Topic :: Software Development :: Libraries :: Application Frameworks',
-        'Topic :: Software Development :: Libraries :: Python Modules'],
+        'Intended Audience :: Developers'],
     long_description=open('README.rst').read()
 )
