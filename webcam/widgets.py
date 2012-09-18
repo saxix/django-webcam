@@ -10,8 +10,8 @@ class CameraWidget(Widget):
         }
         js = (
             'webcam/jquery-1.7.2.min.js',
-            'webcam/jquery.webcam.js',
-            'webcam/widget.js',
+            'webcam/jquery.webcam.min.js',
+            'webcam/widget.min.js',
             )
 
     def render(self, name, value, attrs=None):
