@@ -1,0 +1,21 @@
+import django.contrib.admin
+import django.contrib.admin.sites
+from django.contrib.auth.models import User
+from django.conf.urls import patterns, include, url
+
+
+class PublicAdminSite(django.contrib.admin.sites.AdminSite):
+    def has_permission(self, request):
+        request.user = User.objects.get_or_create(username='sax')[0]
+        return True
+
+site = PublicAdminSite()
+django.contrib.admin.site = django.contrib.admin.sites.site = site
+#django.contrib.admin.autodiscover()
+import demoproject.demoapp.admin
+
+urlpatterns = patterns('',
+    (r'', include(include(site.urls))),
+#    (r'', include(demoapp.urls)),
+    url(r'^admin/', include(site.urls)),
+)

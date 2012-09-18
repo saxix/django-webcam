@@ -1,0 +1,21 @@
+{% load i18n static %}
+<input type="hidden" name="{{ name }}" id="{{attrs.id}}" value="{{ value }}"/>
+<input type="hidden" name="data_{{ name }}" id="data_{{attrs.id}}" value="{{ image }}"/>
+
+<img class="camera-preview" id="{{attrs.id}}-image" width="{{ width }}" height="{{ height }}"/>
+
+<script type="text/javascript">
+    $(window).load(function () {
+        var previous_data = $("#data_{{ attrs.id }}").attr('value');
+        if (previous_data != "") {
+            $("#{{ attrs.id }}-image").attr('src', previous_data);
+        }
+    });
+    $(window).load(function () {
+        window.cameramonitor = new CameraMonitor({width:{{ camera_width }}, height:{{ camera_height }},
+            swffile: "{% static 'webcam/jscam.swf' %}", quality:85, mode:"callback"})
+    })
+</script>
+<br />
+<input type="button" class="btn" value='{% trans 'Take a picture' %}'
+       onclick="window.cameramonitor.show_monitor('data_{{ attrs.id }}')"/>

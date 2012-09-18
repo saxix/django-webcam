@@ -1,8 +1,8 @@
 *.log
 *.pot
 *.pyc
-local_settings.py
-MANIFEST
+/IGNORE
+/MANIFEST
 .idea
-dist/
-*.egg-info
+/dist
+/*.egg-info

@@ -1,26 +1,19 @@
-# -*- coding: utf-8 -*-
 from django import forms
-from django.forms.widgets import Widget
-from django.template.loader import render_to_string, find_template
+from webcam.widgets import CameraWidget
 
 
-class CameraWidget(Widget):
-    class Media:
-        css = {
-            'all': ('pretty.css',)
-        }
-        js = ('webcam/jquery.js',
-              'webcam/jquery.webcam.js',
-              'webcam/jquery.Jcrop.min.js',
-              'webcam/camera.js')
+class CameraField(forms.CharField):
+    widget = CameraWidget
 
-
-    def render(self, name, value, attrs=None):
-        return render_to_string('webcam/camera2.html', {'name':name, 'value':value, 'attrs':attrs})
-
-class CameraField(forms.ImageField):
-#    widget = CameraWidget
-
-    def __init__(self, *args, **kwargs):
+    def __init__(self, width=320, height=240, camera_width=640, camera_height=280, *args, **kwargs):
+        self.width = width
+        self.height = height
+        self.camera_width = camera_width
+        self.camera_height = camera_height
         super(CameraField, self).__init__(*args, **kwargs)
 
+    def widget_attrs(self, widget):
+        return {'width': self.width,
+                'height': self.height,
+                'camera_width': self.camera_width,
+                'camera_height': self.camera_height}
