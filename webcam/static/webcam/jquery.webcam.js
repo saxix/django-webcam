@@ -60,7 +60,6 @@
         (_register = function (run) {
 
             var cam = document.getElementById('XwebcamXobjectX');
-
             if (cam.capture !== undefined) {
 
                 /* Simple callback methods are not allowed :-/ */

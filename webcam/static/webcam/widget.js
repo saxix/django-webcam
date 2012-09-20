@@ -10,17 +10,17 @@ function base64_encode(s) {
         }
     }
     for (c = 0;
-        c < s.length;
-        c += 3
-    ) {
+         c < s.length;
+         c += 3
+            ) {
         if (c > 0 && (c / 3 * 4) % 76 == 0) {
             r += '\r\n';
         }
         var n = (
-            (s.charCodeAt(c) << 16) +
-            (s.charCodeAt(c+1) << 8) +
-            s.charCodeAt(c+2)
-        );
+                (s.charCodeAt(c) << 16) +
+                        (s.charCodeAt(c+1) << 8) +
+                        s.charCodeAt(c+2)
+                );
         n = [
             (n >>> 18) & 63,
             (n >>> 12) & 63,
@@ -28,11 +28,11 @@ function base64_encode(s) {
             n & 63
         ];
         r += (
-            base64chars[n[0]] +
-            base64chars[n[1]] +
-            base64chars[n[2]] +
-            base64chars[n[3]]
-        )
+                base64chars[n[0]] +
+                        base64chars[n[1]] +
+                        base64chars[n[2]] +
+                        base64chars[n[3]]
+                )
     }
     return r.substring(0, r.length - p.length) + p
 }
@@ -40,17 +40,17 @@ function base64_encode(s) {
 function Webcam(options /* { parent, width, height, swffile, quality, mode } */) {
     webcam = this; // avoids 'this' confusion in event handlers
     var source = (
-        '<object id="XwebcamXobjectX" '+
-            'type="application/x-shockwave-flash"'+
-            ' data="' + options.swffile + '"'+
-            ' width="' + options.width + '"'+
-            ' height="' + options.height + '"'+
-        '>'+
-            '<param name="movie" value="' +  options.swffile + '" />'+
-            '<param name="FlashVars" value="mode=' +  options.mode + '&amp;quality=' +  options.quality + '" />'+
-            '<param name="allowScriptAccess" value="always" />'+
-        '</object>'
-    );
+            '<object id="XwebcamXobjectX" '+
+                    'type="application/x-shockwave-flash"'+
+                    ' data="' + options.swffile + '"'+
+                    ' width="' + options.width + '"'+
+                    ' height="' + options.height + '"'+
+                    '>'+
+                    '<param name="movie" value="' +  options.swffile + '" />'+
+                    '<param name="FlashVars" value="mode=' +  options.mode + '&amp;quality=' +  options.quality + '" />'+
+                    '<param name="allowScriptAccess" value="always" />'+
+                    '</object>'
+            );
     $cam = $(source);
     options.parent.append($cam);
     webcam.onLoad = function () {
@@ -90,19 +90,19 @@ function CameraMonitor(options /* { width, height, swffile, quality, mode } */) 
             window.cameramonitor = this;
             var _ = gettext;
             $("body").append(
-                $(
-                    '<div id="webcam-monitor-layer">'+
-                        '<div id="webcam-monitor">'+
-                            '<div id="camera-frame" class="camera">'+
-                                '<div id="camera-flv" class="camera"></div>'+
-                            '</div>'+
-                            '<form id="camera-commands" class="camera">'+
-                                '<input type="button" id="camera-snap" class="btn" value="Snap" />'+
-                                '<input type="button" id="camera-cancel" class="btn" value="Cancel" />'+
-                            '</form>'+
-                        '</div>'+
-                    '</div>'
-                )
+                    $(
+                            '<div id="webcam-monitor-layer">'+
+                                    '<div id="webcam-monitor">'+
+                                    '<div id="camera-frame" class="camera">'+
+                                    '<div id="camera-flv" class="camera"></div>'+
+                                    '</div>'+
+                                    '<form id="camera-commands" class="camera">'+
+                                    '<input type="button" id="camera-snap" class="btn" value="Snap" />'+
+                                    '<input type="button" id="camera-cancel" class="btn" value="Cancel" />'+
+                                    '</form>'+
+                                    '</div>'+
+                                    '</div>'
+                    )
             );
             $("#webcam-monitor-layer").click(function (event) {
                 $("#webcam-monitor-layer").hide();
@@ -157,26 +157,26 @@ function CameraMonitor(options /* { width, height, swffile, quality, mode } */) 
                 $webcam_monitor_layer.show();
                 $snap.unbind('click');
                 $snap.click(
-                    function(event) {
-                        webcam.capture(
-                            /* Tried to do this in a setTimeout so as to give the user back control of the UI
-                            * whilst the jpeg capture takes place (by hiding the flash).
-                            * However, this doesn't work as the flash seems to need to be showing whilst capturing.
-                            * */
-                            function (jpeg_hex_string) {
-                                var jpeg_bytes = new Array(jpeg_hex_string);
-                                for (var i = 0, len=jpeg_hex_string.length;i<len;i+=2) {
-                                    jpeg_bytes[i/2] = String.fromCharCode(parseInt("0x"+jpeg_hex_string.substr(i,2)))
-                                }
-                                var base64_jpeg_data = base64_encode(jpeg_bytes.join(""));
-                                var base64_jpeg_data_uri = "data:image/jpeg;base64,"+base64_jpeg_data;
-                                $widget_input.attr('value', base64_jpeg_data_uri);
-                                $widget_monitor.attr('src', base64_jpeg_data_uri)
-                            }
-                        );
-                        $webcam_monitor_layer.hide();
-                        event.stopPropagation();
-                    }
+                        function(event) {
+                            webcam.capture(
+                                    /* Tried to do this in a setTimeout so as to give the user back control of the UI
+                                     * whilst the jpeg capture takes place (by hiding the flash).
+                                     * However, this doesn't work as the flash seems to need to be showing whilst capturing.
+                                     * */
+                                    function (jpeg_hex_string) {
+                                        var jpeg_bytes = new Array(jpeg_hex_string);
+                                        for (var i = 0, len=jpeg_hex_string.length;i<len;i+=2) {
+                                            jpeg_bytes[i/2] = String.fromCharCode(parseInt("0x"+jpeg_hex_string.substr(i,2)))
+                                        }
+                                        var base64_jpeg_data = base64_encode(jpeg_bytes.join(""));
+                                        var base64_jpeg_data_uri = "data:image/jpeg;base64,"+base64_jpeg_data;
+                                        $widget_input.attr('value', base64_jpeg_data_uri);
+                                        $widget_monitor.attr('src', base64_jpeg_data_uri)
+                                    }
+                            );
+                            $webcam_monitor_layer.hide();
+                            event.stopPropagation();
+                        }
                 );
                 $snap.focus()
             }
