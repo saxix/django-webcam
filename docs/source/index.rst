@@ -10,7 +10,7 @@ django fields easy store webcam snaphot ( ie Facebook Profile )
 * Can store in database or filesystem
 * Support gif/jpeg/png
 * Manage multiple image fields in the same page
-
+* Works in the admin as any other field
 
 .. note:: based on jquery.webcam plugin from Robert Eisele (robert@xarg.org)
 
