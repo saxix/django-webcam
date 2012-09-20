@@ -6,3 +6,5 @@
 .idea
 /dist
 /*.egg-info
+/demo/demoproject/media/*
+/demo/DEMODB.sqlite
