@@ -10,12 +10,14 @@ class CameraWidget(Widget):
         }
         js = (
             'webcam/jquery-1.7.2.min.js',
-            'webcam/jquery.webcam.min.js',
-            'webcam/widget.min.js',
+            'webcam/jquery.webcam2.js',
+            'webcam/camera.js',
             )
 
     def render(self, name, value, attrs=None):
+        value = value or ""
         defaults = {'name': name,
+                    'format': self.attrs['format'],
                     'width': self.attrs['width'],
                     'height': self.attrs['height'],
                     'camera_width': self.attrs['camera_width'],
@@ -39,8 +41,10 @@ class FSCameraWidget(CameraWidget):
         return "%s|%s" % (filename, image)
 
     def render(self, name, value, attrs=None):
-        filename, data = value.split('|')
+        filename = data = ""
+        value = value or ""
+        if value:
+            filename, data = value.split('|')
         attrs = attrs or {}
         attrs.update({'value': filename, 'image': data, })
         return super(FSCameraWidget, self).render(name, value, attrs)
-

@@ -31,27 +31,38 @@ class FileSystemStorage(object):
     def exists(self, name):
         return os.path.exists(self.path(name))
 
+    def get_valid_name(self, name, format):
+        newname = str(uuid.uuid4())
+        if format:
+            return "%s.%s" % (newname, format)
+        return newname
+
     def get_values(self, data):
+        filename =''
+        image = None
         if data:
             try:
                 filename, image = data.split('|')
             except ValueError:
-                filename = "%s.jpg" % uuid.uuid4()
-        else:
-            image = None
+                filename = self.get_valid_name(filename)
         return filename, image
+
+    def get_mime(self, field):
+        return 'data:image/%s;base64' % field.format
 
     def load(self, field, instance):
         try:
             name = getattr(instance, field.attname)
             full_path = self.path(name)
             with open(full_path, 'r') as fd:
-                return 'data:image/jpeg;base64,%s' % base64.encodestring(fd.read())
+                return '%s,%s' % (self.get_mime(field), base64.encodestring(fd.read()))
         except IOError, e:
             return None
 
     def save(self, field, instance, data):
         name, image = self.get_values(data)
+        if not name:
+            name = self.get_valid_name(name, field.format)
         if image:
             full_path = self.path(name)
             directory = os.path.dirname(full_path)
@@ -65,8 +76,9 @@ class FileSystemStorage(object):
             if not os.path.isdir(directory):
                 raise IOError("%s exists and is not a directory." % directory)
 
+            encode = self.get_mime(field)
             with open(full_path, "wb") as fd:
-                fd.write(base64.decodestring(image[len('data:image/jpeg;base64,'):]))
+                fd.write(base64.decodestring(image[len(encode):]))
 
             setattr(instance, field.name, name)
 
@@ -74,11 +86,14 @@ class FileSystemStorage(object):
 class CameraField(Field):
     description = _("Picture")
 
-    def __init__(self, verbose_name=None, name=None, width=320, height=240, **kwargs):
+    def __init__(self, verbose_name=None, name=None, width=320, height=240, format='jpeg', **kwargs):
         for arg in ('primary_key', 'unique'):
             if arg in kwargs:
                 raise TypeError("'%s' is not a valid argument for %s." % (arg, self.__class__))
+        if format not in ['gif', 'jpeg', 'png']:
+            raise TypeError("'%s' is not a valid format. ([gif|jpg|png])" % type)
 
+        self.format = format
         self.width = width
         self.height = height
         super(CameraField, self).__init__(verbose_name, name, **kwargs)
@@ -88,6 +103,7 @@ class CameraField(Field):
 
     def formfield(self, **kwargs):
         defaults = {'form_class': forms.CameraField,
+                    'format': self.format,
                     'width': self.width,
                     'height': self.height,
                     'required': not self.blank,
@@ -117,7 +133,7 @@ class FSCameraField(CameraField):
         super(FSCameraField, self).__init__(verbose_name, name, width, height, **kwargs)
 
     def value_from_object(self, obj):
-        return "%s|%s" % (getattr(obj, self.attname), self.storage.load(self, obj))
+        return "%s|%s" % (getattr(obj, self.attname, ''), self.storage.load(self, obj) or "")
 
     def save_form_data(self, instance, data):
         self.storage.save(self, instance, data)
@@ -125,17 +141,6 @@ class FSCameraField(CameraField):
     def formfield(self, **kwargs):
         kwargs['widget'] = widgets.FSCameraWidget
         return super(FSCameraField, self).formfield(**kwargs)
-
-#    def formfield(self, **kwargs):
-#        defaults = {'form_class': forms.CameraField,
-#                    'width': self.width,
-#                    'height': self.height,
-#                    'widget': widgets.FSCameraWidget,
-#                    'required': not self.blank,
-#                    'label': capfirst(self.verbose_name),
-#                    'help_text': self.help_text}
-#        defaults.update(kwargs)
-#        return super(CameraField, self).formfield(**defaults)
 
 
 try:
