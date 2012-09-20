@@ -23,10 +23,15 @@ Examples
 models.py::
 
     from webcam.fields import DBCameraField
+    from webcam.fields import FileSystemStorage
+
 
     class Person(models.Model):
         picture1 = DBCameraField() # store in the database
-        picture2 = FSCameraField() # store on filesystem
+        picture2 = FSCameraField(format='gif') # by default storen on settings.MEDIA_ROOT
+        picture3 = FSCameraField(format='png',
+                                 storage=FileSystemStorage('/absolute/path/to/'),
+                                 null=True, blank=True) # store on filesystem
 
 
 Links
