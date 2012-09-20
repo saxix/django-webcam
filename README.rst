@@ -38,3 +38,4 @@ Links
    * Project home page: https://github.com/saxix/django-webcam
    * Issue tracker: https://github.com/saxix/django-webcam/issues?sort
    * Download: http://pypi.python.org/pypi/django-webcam/
+   * Documentation: http://django-webcam.readthedocs.org/en/latest/

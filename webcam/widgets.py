@@ -1,4 +1,3 @@
-from django.core.urlresolvers import reverse, reverse_lazy
 from django.forms.widgets import Widget
 from django.template.loader import render_to_string
 
@@ -10,7 +9,7 @@ class CameraWidget(Widget):
         }
         js = (
             'webcam/jquery-1.7.2.min.js',
-            'webcam/jquery.webcam2.js',
+            'webcam/jquery.django.webcam.js',
             'webcam/camera.js',
             )
 
