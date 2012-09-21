@@ -5,12 +5,12 @@ from django.template.loader import render_to_string
 class CameraWidget(Widget):
     class Media:
         css = {
-            'all': ('webcam/webcam.css',)
+            'all': ('webcam/django-webcam.min.css',)
         }
         js = (
             'webcam/jquery-1.7.2.min.js',
-            'webcam/jquery.django.webcam.js',
-            'webcam/camera.js',
+            'webcam/jquery.django-webcam.min.js',
+            'webcam/django-webcam.min.js',
             )
 
     def render(self, name, value, attrs=None):

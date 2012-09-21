@@ -1,21 +1,18 @@
 {% load i18n static %}
-<input type="hidden" name="{{ name }}" id="{{attrs.id}}" value="{{ value }}"/>
-<input type="hidden" name="data_{{ name }}" id="data_{{attrs.id}}" value="{{ image }}"/>
-
-<img class="camera-preview" id="{{attrs.id}}-image" width="{{ width }}" height="{{ height }}"/>
-
+<input type="hidden" name="{{ name }}" id="{{ attrs.id }}" value="{{ value }}"/>
+<input type="hidden" name="data_{{ name }}" id="data_{{ attrs.id }}" value="{{ image }}"/>
+<img class="camera-preview" id="{{ attrs.id }}-image" width="{{ width }}" height="{{ height }}"/>
 <script type="text/javascript">
     $(window).load(function () {
         var previous_data = $("#data_{{ attrs.id }}").attr('value');
         if (previous_data != "") {
-            console.log(2222222222, previous_data)
             $("#{{ attrs.id }}-image").attr('src', previous_data);
         }
     });
     $(window).load(function () {
-        SingleMonitor({swffile: "{% static 'webcam/jscam.swf' %}"});
+        SingleMonitor({swffile:"{% static 'webcam/jscam.swf' %}"});
     })
 </script>
-<br />
+<br/>
 <input type="button" class="btn" value='{% trans 'Take a picture' %}'
        onclick="window.cameramonitor.show_monitor('{{ format }}', $('#data_{{ attrs.id }}'), $('#{{ attrs.id }}-image'))"/>
