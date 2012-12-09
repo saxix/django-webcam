@@ -11,11 +11,9 @@ class PublicAdminSite(django.contrib.admin.sites.AdminSite):
 
 site = PublicAdminSite()
 django.contrib.admin.site = django.contrib.admin.sites.site = site
-#django.contrib.admin.autodiscover()
 import demoproject.demoapp.admin
 
 urlpatterns = patterns('',
     (r'', include(include(site.urls))),
-#    (r'', include(demoapp.urls)),
     url(r'^admin/', include(site.urls)),
 )

@@ -1,5 +1,5 @@
 {% load i18n static %}
-<input type="hidden" name="{{ name }}" id="{{ attrs.id }}" value="{{ value }}"/>
+<input type="hidden" name="{{ name }}" id="{{ attrs.id }}" value=""/>
 <input type="hidden" name="data_{{ name }}" id="data_{{ attrs.id }}" value="{{ image }}"/>
 <img class="camera-preview" id="{{ attrs.id }}-image" width="{{ width }}" height="{{ height }}"/>
 <script type="text/javascript">
@@ -16,3 +16,5 @@
 <br/>
 <input type="button" class="btn" value='{% trans 'Take a picture' %}'
        onclick="window.cameramonitor.show_monitor('{{ format }}', $('#data_{{ attrs.id }}'), $('#{{ attrs.id }}-image'))"/>
+<input type="button" class="btn" value='{% trans 'Clear' %}'
+       onclick="window.cameramonitor.clear($('#data_{{attrs.id}}'), $('#{{ attrs.id }}-image'))"/>

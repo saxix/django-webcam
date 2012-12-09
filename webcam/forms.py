@@ -1,4 +1,7 @@
+import binascii
 from django import forms
+from django.core.exceptions import ValidationError
+from webcam.utils import Base64Image, InvalidImageFormat
 from webcam.widgets import CameraWidget
 
 
@@ -12,6 +15,15 @@ class CameraField(forms.CharField):
         self.camera_width = camera_width
         self.camera_height = camera_height
         super(CameraField, self).__init__(*args, **kwargs)
+
+    def clean(self, value):
+        if value:
+            image = Base64Image(value)
+            try:
+                image.as_bitmap()
+                return value
+            except InvalidImageFormat:
+                raise ValidationError('Invalid image format')
 
     def widget_attrs(self, widget):
         return {'width': self.width,

@@ -10,7 +10,7 @@ class CameraWidget(Widget):
         js = (
             'webcam/jquery-1.7.2.min.js',
             'webcam/jquery.django-webcam.min.js',
-            'webcam/django-webcam.min.js',
+            'webcam/django-webcam.js',
             )
 
     def render(self, name, value, attrs=None):
@@ -37,13 +37,9 @@ class FSCameraWidget(CameraWidget):
     def value_from_datadict(self, data, files, name):
         filename = data.get(name, None)
         image = data.get("data_%s" % name, None)
-        return "%s|%s" % (filename, image)
+        return image
 
     def render(self, name, value, attrs=None):
-        filename = data = ""
-        value = value or ""
-        if value:
-            filename, data = value.split('|')
         attrs = attrs or {}
-        attrs.update({'value': filename, 'image': data, })
+        attrs.update({'image': value, })
         return super(FSCameraWidget, self).render(name, value, attrs)

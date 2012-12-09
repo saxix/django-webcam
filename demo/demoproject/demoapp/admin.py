@@ -7,7 +7,4 @@ class DemoAdmin(ModelAdmin):
     def format(self):
         return ''
 
-    def format(self):
-        return ''
-
 site.register(DemoModel, DemoAdmin)

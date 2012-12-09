@@ -26,7 +26,10 @@ function SingleMonitor(options) {
         $("#webcam-monitor").hide();
         event.stopPropagation();
     });
-
+    this.clear = function (widget, monitor) {
+        widget.attr('value', '-1');
+        monitor.attr('src', '');
+    };
     this.show_monitor = function (format, widget, monitor) {
         console.log('showing monitor for', widget, monitor);
         var pos = 0, ctx = null, saveCB, image = [];

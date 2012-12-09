@@ -14,3 +14,5 @@
 <br/>
 <input type="button" class="btn" value='{% trans 'Take a picture' %}'
        onclick="window.cameramonitor.show_monitor('{{ format }}', $('#{{ attrs.id }}'), $('#{{ attrs.id }}-image'))"/>
+<input type="button" class="btn" value='{% trans 'Clear' %}'
+       onclick="window.cameramonitor.clear($('#data_{{attrs.id}}'), $('#{{ attrs.id }}-image'))"/>

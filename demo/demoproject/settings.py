@@ -49,5 +49,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'webcam',
-    'demoproject.demoapp')
+    'demoproject.demoapp'
+    )
 
