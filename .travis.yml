@@ -11,4 +11,4 @@ env:
 install:
   - pip install -q Django==$DJANGO_VERSION
   - python setup.py -q install
-script: cd demoproject && ./manage.py test webcam
+script: cd demo && ./manage.py test webcam
