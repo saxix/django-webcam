@@ -1,12 +1,15 @@
-
 ===================
 django-webcam
 ===================
 
+.. image:: https://secure.travis-ci.org/saxix/django-webcam.png?branch=master
+   :target: http://travis-ci.org/saxix/django-webcam/
+
+
 django fields easy store webcam snaphot ( ie Facebook Profile )
 
 * Can store in database or filesystem
-* Support gif/jpeg/png
+* Supports gif/jpeg/png
 * Manage multiple image fields in the same page
 
 
