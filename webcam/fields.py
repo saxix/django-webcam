@@ -119,7 +119,7 @@ class FSCameraField(CameraField):
     """
     attr_class = Base64Image
 
-    def __init__(self, verbose_name=None, name=None, format='jpg', widget_width=320, widget_height=240,
+    def __init__(self, verbose_name=None, name=None, format='jpeg', widget_width=320, widget_height=240,
                  width_field=None, height_field=None, storage=None, **kwargs):
         self.storage = storage or CameraFileSystemStorage()
         super(FSCameraField, self).__init__(verbose_name, name, format, widget_width, widget_height,

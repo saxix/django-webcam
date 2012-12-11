@@ -1,9 +1,11 @@
 include README.rst
 include AUTHORS
 include LICENSE
+include CHANGES
 include MANIFEST.in
 include setup.py
 include requirements.pip
 recursive-include webcam *.py
 recursive-include webcam/static *.*
 recursive-include webcam/templates *.*
+recursive-include webcam/tests *
