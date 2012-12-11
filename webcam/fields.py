@@ -57,13 +57,13 @@ class CameraField(Field):
 
     descriptor_class = CameraPictureDescriptor
 
-    def __init__(self, verbose_name=None, name=None, format='jpg', widget_width=320, widget_height=240,
+    def __init__(self, verbose_name=None, name=None, format='jpeg', widget_width=320, widget_height=240,
                  width_field=None, height_field=None, **kwargs):
         for arg in ('primary_key', 'unique'):
             if arg in kwargs:
                 raise TypeError("'%s' is not a valid argument for %s." % (arg, self.__class__))
         if format not in ['gif', 'jpeg', 'png']:
-            raise TypeError("'%s' is not a valid format. ([gif|jpg|png])" % format)
+            raise TypeError("'%s' is not a valid format. ([gif|jpeg|png])" % format)
 
         self.format = format
         self.widget_width = widget_width
