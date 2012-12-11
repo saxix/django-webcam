@@ -4,7 +4,7 @@ import os
 
 
 NAME = 'django-webcam'
-VERSION = __version__ = (0, 4, 0, 'alpha', 0)
+VERSION = __version__ = (0, 4, 0, 'final', 0)
 __author__ = 'sax'
 
 
