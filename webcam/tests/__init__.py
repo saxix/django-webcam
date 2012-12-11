@@ -20,7 +20,7 @@ def override_app():
 
 HERE = os.path.dirname(__file__)
 PICTURE_NAME = 'colosseo.jpg'
-PICTURE_PATH = os.path.join(HERE, PICTURE_NAME)
+PICTURE_PATH = os.path.join(HERE, 'data', PICTURE_NAME)
 PICTURE = file(PICTURE_PATH).read()
 
 
