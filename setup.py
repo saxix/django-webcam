@@ -12,7 +12,7 @@ VERSIONMAP = {'final': (app.VERSION, 'Development Status :: 5 - Production/Stabl
               'rc': (app.VERSION, 'Development Status :: 4 - Beta'),
               'beta': (app.VERSION, 'Development Status :: 4 - Beta'),
               'alpha': ('master', 'Development Status :: 3 - Alpha'),
-              }
+}
 download_tag, development_status = VERSIONMAP[app.VERSION[3]]
 
 for scheme in INSTALL_SCHEMES.values():
@@ -70,6 +70,11 @@ setup(
             'version': ('setup.py', app.VERSION),
             'release': ('setup.py', app.VERSION)}
     },
+    zip_safe=False,
+    install_requires=[
+        'uuid',
+        'pillow',
+    ],
     classifiers=[
         development_status,
         'Environment :: Web Environment',

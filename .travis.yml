@@ -11,5 +11,3 @@ install:
   - pip install -r -q requirements.pip
   - python setup.py -q install
 script: cd demo && ./manage.py test webcam
-git clone --branch=master --depth=100 --quiet git://github.com/saxix/django-webcam.git saxix/django-webcam
-cd saxix/django-webcam
