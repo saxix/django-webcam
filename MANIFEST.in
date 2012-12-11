@@ -8,4 +8,4 @@ include requirements.pip
 recursive-include webcam *.py
 recursive-include webcam/static *.*
 recursive-include webcam/templates *.*
-recursive-include webcam/tests *
+recursive-include webcam/tests *.*
