@@ -51,7 +51,7 @@ def scan_dir(target, packages=[], data_files=[]):
             data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames]])
     return packages, data_files
 
-packages, data_files = scan_dir('adminactions')
+packages, data_files = scan_dir('webcam')
 
 setup(
     name=NAME,
