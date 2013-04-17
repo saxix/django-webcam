@@ -1,11 +1,12 @@
+~*
 *.log
 *.pot
 *.pyc
+*.sqlite
 /IGNORE
 /MANIFEST
 .idea
 /dist
 /*.egg-info
 /demo/demoproject/media/*-*
-/demo/DEMODB.sqlite
 /docs/OUT/

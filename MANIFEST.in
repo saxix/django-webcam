@@ -4,7 +4,7 @@ include LICENSE
 include CHANGES
 include MANIFEST.in
 include setup.py
-include requirements.pip
+include webcam/requirements.pip
 include webcam/tests/data/colosseo.jpg
 recursive-include webcam *.py
 recursive-include webcam/static *.*

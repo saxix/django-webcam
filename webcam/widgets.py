@@ -4,14 +4,10 @@ from django.template.loader import render_to_string
 
 class CameraWidget(Widget):
     class Media:
-        css = {
-            'all': ('webcam/django-webcam.min.css',)
-        }
-        js = (
-            'webcam/jquery-1.7.2.min.js',
-            'webcam/jquery.django-webcam.min.js',
-            'webcam/django-webcam.js',
-            )
+        css = {'all': ('webcam/django-webcam.min.css',)}
+        js = ('webcam/jquery-1.7.2.min.js',
+              'webcam/jquery.django-webcam.min.js',
+              'webcam/django-webcam.js',)
 
     def render(self, name, value, attrs=None):
         value = value or ""
@@ -35,9 +31,8 @@ class FSCameraWidget(CameraWidget):
     template = 'webcam/fswidget.html'
 
     def value_from_datadict(self, data, files, name):
-        filename = data.get(name, None)
-        image = data.get("data_%s" % name, None)
-        return image
+        raw_val = data.get(name, None)
+        return raw_val
 
     def render(self, name, value, attrs=None):
         attrs = attrs or {}

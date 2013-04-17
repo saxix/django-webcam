@@ -1,7 +1,7 @@
 import django.contrib.admin
 import django.contrib.admin.sites
 from django.contrib.auth.models import User
-from django.conf.urls import patterns, include, url
+from django.conf.urls import patterns, include
 
 
 class PublicAdminSite(django.contrib.admin.sites.AdminSite):
@@ -14,5 +14,5 @@ django.contrib.admin.site = django.contrib.admin.sites.site = site
 
 urlpatterns = patterns('',
     (r'', include(include(site.urls))),
-    url(r'^admin/', include(site.urls)),
+    # url(r'^admin/', include(site.urls)),
 )

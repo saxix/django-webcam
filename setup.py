@@ -11,8 +11,7 @@ RELEASE = app.get_version()
 VERSIONMAP = {'final': (app.VERSION, 'Development Status :: 5 - Production/Stable'),
               'rc': (app.VERSION, 'Development Status :: 4 - Beta'),
               'beta': (app.VERSION, 'Development Status :: 4 - Beta'),
-              'alpha': ('master', 'Development Status :: 3 - Alpha'),
-}
+              'alpha': ('master', 'Development Status :: 3 - Alpha')}
 download_tag, development_status = VERSIONMAP[app.VERSION[3]]
 
 for scheme in INSTALL_SCHEMES.values():
@@ -51,6 +50,7 @@ def scan_dir(target, packages=[], data_files=[]):
             data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames]])
     return packages, data_files
 
+
 packages, data_files = scan_dir('webcam')
 
 setup(
@@ -74,6 +74,10 @@ setup(
     install_requires=[
         'uuid',
         'pillow',
+    ],
+    tests_require=[
+        'mock',
+        'scripttest',
     ],
     classifiers=[
         development_status,
