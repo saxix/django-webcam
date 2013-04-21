@@ -2,12 +2,10 @@
 from django.db import models
 from webcam.fields import CameraPictureField
 import random
-import tempfile
 
-from django.core.files.storage import FileSystemStorage
-
-temp_storage_location = tempfile.mkdtemp()
-temp_storage = FileSystemStorage(location=temp_storage_location)
+# temp_storage_location = tempfile.mkdtemp()
+# temp_storage = FileSystemStorage(location=temp_storage_location)
+from webcam.tests import temp_storage
 
 
 class FSDemoModel(models.Model):
@@ -24,7 +22,7 @@ class FSDemoModel(models.Model):
     # random = models.FileField(storage=temp_storage, upload_to=random_upload_to)
     # default = models.FileField(storage=temp_storage, upload_to='tests', default='tests/default.txt')
 
-    photo = CameraPictureField('FilePictureField', format='jpeg',
+    photo = CameraPictureField('CameraPictureField', format='jpeg',
                                null=True, blank=True,
                                storage=temp_storage, upload_to='tests')
 
