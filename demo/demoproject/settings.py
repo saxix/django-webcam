@@ -1,3 +1,6 @@
+import os
+
+HERE = os.path.dirname(__file__)
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -16,10 +19,12 @@ SITE_ID = 1
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-MEDIA_ROOT = ''
+MEDIA_ROOT = os.path.join(HERE, 'media')
 MEDIA_URL = ''
-STATIC_ROOT = ''
+STATIC_ROOT = os.path.join(HERE, 'static')
 STATIC_URL = '/static/'
+AUTHENTICATION_BACKENDS = ('demoproject.backends.AnyUserBackend',)
+
 # STATICFILES_DIRS = (
 # )
 # STATICFILES_FINDERS = (
@@ -43,7 +48,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
-# ROOT_URLCONF = 'demoproject2.urls'
+ROOT_URLCONF = 'demoproject.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'demoproject.wsgi.application'
@@ -60,7 +65,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'webcam',
-    'webcam.tests',
+    'demoproject',
 )
 
 LOGGING = {

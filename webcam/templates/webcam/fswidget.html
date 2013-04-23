@@ -6,7 +6,7 @@
     $(window).load(function () {
         var previous_data = $("#data_{{ attrs.id }}").attr('value');
         if (previous_data != "") {
-            $("#{{ attrs.id }}-image").attr('src', previous_data);
+            $("#{{ attrs.id }}-image").attr('src', 'data:image/jpeg;base64,' + previous_data);
         }
     });
     $(window).load(function () {

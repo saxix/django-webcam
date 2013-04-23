@@ -42,8 +42,13 @@ class CameraPicture(FieldFile):
 
     @property
     def stream(self):
-        buf = self.file.read()
-        return base64.encodestring(buf)
+        try:
+            buf = self.file.read()
+            return base64.encodestring(buf)
+        except IOError:
+            return ''
+        except ValueError:
+            return ''
 
     def __nonzero__(self):
         return bool(self.name) or bool(self._file)
