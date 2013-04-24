@@ -5,15 +5,10 @@ API
 ===
 
 
-.. autoclass:: webcam.fields.DBCameraField
+.. autoclass:: webcam.fields.CameraField
 
-.. autoclass:: webcam.fields.FSCameraField
+.. autoclass:: webcam.widgets.CameraWidget
 
+.. autoclass:: webcam.picture.CameraPicture
 
-
-.. autoclass:: webcam.widgets.DBCameraWidget
-
-.. autoclass:: webcam.widgets.FSCameraWidget
-
-
-.. autoclass:: webcam.forms.CameraField
+.. autoclass:: webcam.storage.CameraStorage

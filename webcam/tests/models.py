@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-import tempfile
 from django.db import models
-from webcam.fields import DBCameraField, FSCameraField
-from webcam.storage import CameraFileSystemStorage
+from webcam.fields import CameraField
+from webcam.tests import temp_storage
 
 
-class DBDemoModel(models.Model):
-    photo = DBCameraField('DatabasePictureField',format='png', null=True, blank=True)
+class WebcamTestModel(models.Model):
+    photo = CameraField('CameraPictureField', format='jpeg', null=True, blank=True,
+                               storage=temp_storage, upload_to='tests')
 
-class FSDemoModel(models.Model):
-    photo = FSCameraField('FilePictureField',format='jpeg', null=True, blank=True, storage=CameraFileSystemStorage(tempfile.gettempdir()))
+    class Meta:
+        app_label = 'webcam'
