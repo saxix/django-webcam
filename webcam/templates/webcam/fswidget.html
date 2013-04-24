@@ -1,6 +1,6 @@
 {% load i18n static %}
 <input type="hidden" name="{{ name }}" id="{{ attrs.id }}" value="{{ picture.name }}"/>
-<input type="hidden" name="data_{{ name }}" id="data_{{ attrs.id }}" value="{{ picture.stream}}"/>
+<input type="hidden" name="data_{{ name }}" id="data_{{ attrs.id }}" value=""/>
 <img class="camera-preview" id="{{ attrs.id }}-image" width="{{ width }}" height="{{ height }}"/>
 <script type="text/javascript">
     $(window).load(function () {

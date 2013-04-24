@@ -48,7 +48,7 @@ class FieldTest(TestCase):
 
         # An object without a file has limited functionality.
         obj1 = FSDemoModel()
-        self.assertEqual(obj1.photo.name, "")
+        self.assertEqual(obj1.photo.name, None)
         self.assertRaises(ValueError, lambda: obj1.photo.size)
 
         # Saving a file enables full functionality.

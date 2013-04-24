@@ -31,9 +31,10 @@ class FSCameraWidget(CameraWidget):
 
     def value_from_datadict(self, data, files, name):
         raw_val = data.get("data_%s" % name, None)
+        filename = data.get("%s" % name, None)
         if raw_val:
             raw_val = raw_val.replace('data:image/jpeg;base64,', '')
-        return raw_val
+        return (filename, raw_val)
 
     def render(self, name, value, attrs=None):
         attrs = attrs or {}
