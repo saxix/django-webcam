@@ -14,8 +14,6 @@ VERSIONMAP = {'final': (app.VERSION, 'Development Status :: 5 - Production/Stabl
               'alpha': ('master', 'Development Status :: 3 - Alpha')}
 download_tag, development_status = VERSIONMAP[app.VERSION[3]]
 
-for scheme in INSTALL_SCHEMES.values():
-    scheme['data'] = scheme['purelib']
 
 packages, data_files = [], []
 root_dir = os.path.dirname(__file__)
@@ -40,7 +38,6 @@ def fullsplit(path, result=None):
 
 def scan_dir(target, packages=[], data_files=[]):
     for dirpath, dirnames, filenames in os.walk(target):
-        # Ignore dirnames that start with '.'
         for i, dirname in enumerate(dirnames):
             if dirname.startswith('.'):
                 del dirnames[i]
@@ -49,6 +46,9 @@ def scan_dir(target, packages=[], data_files=[]):
         elif filenames:
             data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames]])
     return packages, data_files
+
+for scheme in INSTALL_SCHEMES.values():
+    scheme['data'] = scheme['purelib']
 
 
 packages, data_files = scan_dir('webcam')
@@ -66,18 +66,15 @@ setup(
     data_files=data_files,
     platforms=['any'],
     command_options={
-        'build_sphinx': {
+        'docs': {
             'version': ('setup.py', app.VERSION),
             'release': ('setup.py', app.VERSION)}
     },
     zip_safe=False,
     install_requires=[
         'uuid',
-        'pillow',
     ],
     tests_require=[
-        'mock',
-        'scripttest',
     ],
     classifiers=[
         development_status,

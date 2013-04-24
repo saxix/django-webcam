@@ -1,27 +1,18 @@
 # -*- coding: utf-8 -*-
 import os
 import re
-import shutil
-import stat
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
+from django.utils.unittest.case import skipIf
+import sys
 from webcam.tests import temp_storage, PICTURE
-from webcam.tests.models import FSDemoModel
+from webcam.tests.models import WebcamTestModel
 from django.core.cache import cache
+from webcam.tests.util import rmtree
 
 uuid_pattern = r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
 uuid_rex = re.compile(uuid_pattern, re.IGNORECASE)
-
-
-def rmtree(path):
-    def _remShut(*args):
-        func, path, _ = args  # onerror returns a tuple containing function, path and     exception info
-        os.chmod(path, stat.S_IWRITE)
-        os.remove(path)
-
-    if os.path.exists(path):
-        shutil.rmtree(path, onerror=_remShut)
 
 
 class FieldTest(TestCase):
@@ -35,19 +26,31 @@ class FieldTest(TestCase):
 
     def test_create_save(self):
         temp_storage.save('tests/default.jpg', ContentFile(PICTURE))
-        self.assertRaises(AttributeError, lambda: FSDemoModel.photo)
+        self.assertRaises(AttributeError, lambda: WebcamTestModel.photo)
 
-        d = FSDemoModel.objects.create()
+        d = WebcamTestModel.objects.create()
         self.assertFalse(d.photo)
+
+    @skipIf(not 'PIL' in sys.modules, "PIL not installed")
+    def test_image(self):
+        obj = WebcamTestModel()
+        obj.photo = SimpleUploadedFile("assignment.jpg", PICTURE)
+        obj.save()
+
+        self.assertEqual(obj.photo.dimension, (320, 200))
+
+        self.assertEqual(obj.photo.width, 320)
+        self.assertEqual(obj.photo.height, 200)
+        self.assertEqual(obj.photo.image.format, 'JPEG')
 
     def test_files(self):
         temp_storage.save('tests/default.jpg', ContentFile(PICTURE))
         # Attempting to access a FileField from the class raises a descriptive
         # error
-        self.assertRaises(AttributeError, lambda: FSDemoModel.photo)
+        self.assertRaises(AttributeError, lambda: WebcamTestModel.photo)
 
         # An object without a file has limited functionality.
-        obj1 = FSDemoModel()
+        obj1 = WebcamTestModel()
         self.assertEqual(obj1.photo.name, None)
         self.assertRaises(ValueError, lambda: obj1.photo.size)
 
@@ -83,7 +86,7 @@ class FieldTest(TestCase):
         self.assertEqual(obj1.photo.read(3), PICTURE[:3])
         obj1.photo.close()
 
-        obj2 = FSDemoModel()
+        obj2 = WebcamTestModel()
         obj2.photo.save("assignment.txt", ContentFile(PICTURE))
 
         # Push the objects into the cache to make sure they pickle properly
