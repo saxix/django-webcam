@@ -25,7 +25,7 @@ models.py::
     from webcam.fields import CameraField
 
     class Person(models.Model):
-        picture = CameraStorage()
+        picture = CameraField()
 
 Links
 =====
