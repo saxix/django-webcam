@@ -1,2 +1,12 @@
-1.0
----
+Release 1.0
+-----------
+
+* FieldFile protocola compatibility
+* removed database storage
+
+
+0.x
+-----------
+
+* init
+
