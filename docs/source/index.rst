@@ -3,3 +3,12 @@
 .. _index:
 
 .. include:: ../../README.rst
+
+
+
+.. toctree::
+    :hidden:
+
+    globals
+    changes
+

@@ -1,44 +1,60 @@
-# Django settings for demoproject project.
-import sys, os
+import os
 
-
-here = os.path.dirname(__file__)
-sys.path.append(os.path.abspath(os.path.join(here, '..', '..')))
+HERE = os.path.dirname(__file__)
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-
+ADMINS = ()
+MANAGERS = ADMINS
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'DEMODB.sqlite', # Not used with sqlite3.
-        'HOST': '', # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '', # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'webcam_test.sqlite',
     }
 }
-
-TIME_ZONE = 'Asia/Bangkok'
+ALLOWED_HOSTS = []
+TIME_ZONE = 'America/Chicago'
 LANGUAGE_CODE = 'en-us'
 SITE_ID = 1
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-MEDIA_ROOT = os.path.join(here, 'media')
+MEDIA_ROOT = os.path.join(HERE, 'media')
 MEDIA_URL = ''
-STATIC_ROOT = ''
+STATIC_ROOT = os.path.join(HERE, 'static')
 STATIC_URL = '/static/'
-SECRET_KEY = 'c73*n!y=)tziu^2)y*@5i2^)$8z$tx#b9*_r3i6o1ohxo%*2^a'
+AUTHENTICATION_BACKENDS = ('demoproject.backends.AnyUserBackend',)
+
+# STATICFILES_DIRS = (
+# )
+# STATICFILES_FINDERS = (
+#     'django.contrib.staticfiles.finders.FileSystemFinder',
+#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+# )
+
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = 'l@y%zd0gn+7(yz(s2jx!_f!7u4jexrj396g($2b_#^_d%6*xfc'
+
+# List of callables that know how to import templates from various sources.
+# TEMPLATE_LOADERS = (
+#     'django.template.loaders.filesystem.Loader',
+#     'django.template.loaders.app_directories.Loader',
+# )
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',)
-
+    'django.contrib.messages.middleware.MessageMiddleware',
+)
 ROOT_URLCONF = 'demoproject.urls'
+
+# Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'demoproject.wsgi.application'
 
-AUTHENTICATION_BACKENDS = ('demoproject.backends.AnyUserBackend',)
+# TEMPLATE_DIRS = (
+# )
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -49,6 +65,30 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'webcam',
-    'demoproject.demoapp'
-    )
+    'demoproject',
+)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}
 
