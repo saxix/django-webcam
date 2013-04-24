@@ -4,4 +4,4 @@ from webcam import widgets
 from webcam.fields import CameraField
 
 
-FORMFIELD_FOR_DBFIELD_DEFAULTS[CameraField] = {'widget': widgets.FSCameraWidget}
+FORMFIELD_FOR_DBFIELD_DEFAULTS[CameraField] = {'widget': widgets.CameraWidget}
