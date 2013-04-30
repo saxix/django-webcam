@@ -5,10 +5,12 @@
 .. include:: ../../README.rst
 
 
+.. toctree::
+
+    changes
+	api
 
 .. toctree::
     :hidden:
 
     globals
-    changes
-	api
