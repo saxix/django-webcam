@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from distutils.core import setup
+from setuptools import setup
 from distutils.command.install import INSTALL_SCHEMES
 import os
 import webcam as app
