@@ -5,10 +5,15 @@
 .. include:: ../../README.rst
 
 
-.. toctree::
+Changelog
+=========
 
-    changes
-	api
+This sections lists the biggest changes done on each release.
+
+.. include:: ../../CHANGES
+
+
+
 
 .. toctree::
     :hidden:
