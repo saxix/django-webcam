@@ -11,5 +11,10 @@ env:
 install:
   - pip install -q $DJANGO
   - python setup.py -q install
-  
+
 script: cd demo && ./manage.py test webcam
+
+matrix:
+  exclude:
+    - python: 2.6
+      env: DJANGO="git+https://github.com/django/django.git"
