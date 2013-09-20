@@ -4,7 +4,7 @@ import re
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
-from django.utils.unittest.case import skipIf
+from unittest import skipIf
 import sys
 from webcam.tests import temp_storage, PICTURE
 from webcam.tests.models import WebcamTestModel
